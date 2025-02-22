@@ -2,7 +2,9 @@ import { createServer } from "node:http";
 import express, { Express} from "express";
 import { testHandler } from "./testHandler";
 import httpProxy from "http-proxy";
-import helmet from "helmet";
+// import helmet from "helmet";
+import { engine } from "express-handlebars";
+import * as helpers from "./template_helpers"
 
 const port = process.env.PORT||5000;
 
@@ -22,13 +24,26 @@ const proxy = httpProxy.createProxyServer({
 //         }
 //     }
 // }));
-
 //    <meta http-equiv="Content-Security-Policy"
 //    content="script-src 'self' 'unsafe-eval' 'unsafe-inline';
 //    object-src 'self';
 //    style-src 'self' 'unsafe-inline';
 //    media-src *">
+
+expressApp.set("views", "templates/server");
+expressApp.engine("handlebars", engine());
+expressApp.set("view engine", "handlebars");
+
 expressApp.use(express.json());
+
+expressApp.get("/dynamic/:file", (req: express.Request, res: express.Response) => {
+    res.render(`${req.params.file}.handlebars`,
+        {
+            message:"Hello template",
+            req,
+            helpers: {...helpers}
+        });
+});
 
 expressApp.post("/test", testHandler);
 expressApp.use(express.static("static"));
