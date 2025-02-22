@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "use_js": "nodemon",
-    "server": "tsc-watch --noClear --onSuccess \"node --require dotenv/config dist/server.js\"",
+    "server": "tsc-watch --noClear --onSuccess \"node --inspect --require dotenv/config dist/server.js\"",
     "client": "webpack serve",
     "start": "npm-run-all --parallel server client"
   },
