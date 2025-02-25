@@ -2,9 +2,10 @@ import { createServer } from "node:http";
 import express, { Express} from "express";
 import { testHandler } from "./testHandler";
 import httpProxy from "http-proxy";
-// import helmet from "helmet";
+import helmet from "helmet";
 import { engine } from "express-handlebars";
 import * as helpers from "./template_helpers"
+import { registerFormMiddleware, registerFormRoutes } from "./forms";
 
 const port = process.env.PORT||5000;
 
@@ -13,6 +14,7 @@ const expressApp : Express = express();
 const proxy = httpProxy.createProxyServer({
     target: "http://localhost:5100", ws: true,
 });
+
 
 // expressApp.use(helmet({
 //     contentSecurityPolicy: {
@@ -34,7 +36,11 @@ expressApp.set("views", "templates/server");
 expressApp.engine("handlebars", engine());
 expressApp.set("view engine", "handlebars");
 
+expressApp.use(helmet());
 expressApp.use(express.json());
+
+registerFormMiddleware(expressApp);
+registerFormRoutes(expressApp);
 
 expressApp.get("/dynamic/:file", (req: express.Request, res: express.Response) => {
     res.render(`${req.params.file}.handlebars`,

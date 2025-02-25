@@ -9,13 +9,30 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
-    <div id="target"></div>
-    <!-- <button id="btn" class="btn btn-primary m-2">Send Request</button>
-    <table class="table table-striped">
-        <tbody>
-            <tr><th>Status</th><td id="msg"></td></tr>
-            <tr><th>Response</th><td id="body"></td></tr>
-        </tbody>
-    </table> -->
+    <form action="/form">
+        <div class="m-2">
+            <label class="form-label" for="name">Name</label>
+            <input name="name" id="name" class="form-control">
+        </div>
+        <div class="m-2">
+            <label class="form-label" for="city">City</label>
+            <input name="city" id="city" class="form-control">
+        </div>
+        <div class="m-2">
+            <label class="form-label" for="datafile">File</label>
+            <input name="datafile" id="datafile" class="form-control" type="file" />
+        </div>
+        <div class="m-2">
+            <button type="submit" class="btn btn-primary" formmethod="get">Submit  (GET)</button>
+        </div>
+        <div class="m-2">
+            <button type="submit" class="btn btn-primary" formmethod="post">Submit (POST)</button>
+        </div>
+        <div class="m-2">
+            <button type="submit" class="btn btn-primary" formmethod="post" formenctype="multipart/form-data">
+                Submit (POST/MIME)
+            </button>
+        </div>
+    </form>
 </body>
 </html>
